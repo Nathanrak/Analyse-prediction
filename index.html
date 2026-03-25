@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Predictor Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #090b10; color: white; font-family: sans-serif; }
+        .card { background-color: #12151d; border-radius: 15px; }
+        .btn-red { background-color: #d91e1e; transition: 0.3s; }
+        .btn-red:hover { background-color: #b91c1c; }
+    </style>
+</head>
+<body class="p-4">
+    <div class="flex justify-between items-center mb-6 p-4 card">
+        <span class="text-yellow-400 text-xl">☰</span>
+        <h1 class="font-bold tracking-widest text-sm">AVIATOR TIPS</h1>
+        <div class="bg-gray-800 px-3 py-1 rounded-full text-xs font-bold">🪙 39,995</div>
+    </div>
+
+    <div class="card p-5 mb-6">
+        <p class="text-gray-500 text-xs mb-3">Analyse en temps réel (Historique)</p>
+        <textarea id="historyInput" class="w-full h-24 bg-black border-none rounded-lg p-3 text-sm focus:outline-none" placeholder="1.52 11.51 46.88..."></textarea>
+        <button onclick="generate()" class="w-full btn-red mt-4 py-3 rounded-lg font-bold text-sm">GENERER LES PREDICTIONS</button>
+    </div>
+
+    <h2 class="text-sm font-bold mb-4">Prédictions Aviator</h2>
+    <div class="grid grid-cols-4 text-[10px] text-gray-600 font-bold mb-4 text-center">
+        <div>HEURE</div><div>COTE 1</div><div>COTE 2</div><div>RISQUE</div>
+    </div>
+    <div id="resultsList" class="space-y-4 mb-24">
+        </div>
+
+    <div class="fixed bottom-0 left-0 right-0 h-16 bg-[#12151d] border-t border-gray-800 flex justify-around items-center text-[10px] text-gray-500 font-bold">
+        <div class="text-center">Tips</div>
+        <div class="text-center text-yellow-400">Aviator</div>
+        <div class="text-center">VIP</div>
+        <div class="text-center">More</div>
+    </div>
+
+    <script>
+        function generate() {
+            const input = document.getElementById('historyInput').value;
+            const list = document.getElementById('resultsList');
+            list.innerHTML = ""; // Reset
+
+            const now = new Date();
+            for (let i = 1; i <= 8; i++) {
+                now.setMinutes(now.getMinutes() + 2);
+                const timeStr = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+                
+                const c1 = (1.1 + Math.random()).toFixed(2);
+                const c2 = (2.0 + Math.random() * 2).toFixed(2);
+                const risk = (c2 * 1.5).toFixed(2);
+                const color = risk > 5 ? "text-purple-500" : "text-blue-400";
+
+                list.innerHTML += `
+                    <div class="flex justify-between items-center py-4 border-b border-gray-900 text-center text-xs">
+                        <div class="w-1/4 text-gray-400">${timeStr}:00</div>
+                        <div class="w-1/4 text-blue-400 font-medium">${c1}x</div>
+                        <div class="w-1/4 text-blue-400 font-medium">${c2}x</div>
+                        <div class="w-1/4 font-bold ${color}">${risk}x</div>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
