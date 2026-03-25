@@ -1,66 +1,123 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="mg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Predictor Pro</title>
+    <title>Aviator Predictor Pro - Bet261 Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #090b10; color: white; font-family: sans-serif; }
-        .card { background-color: #12151d; border-radius: 15px; }
-        .btn-red { background-color: #d91e1e; transition: 0.3s; }
-        .btn-red:hover { background-color: #b91c1c; }
+        body { background-color: #0b0e16; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card { background-color: #161926; border-radius: 12px; }
+        .btn-red { background-color: #ef4444; transition: 0.3s; }
+        .btn-red:hover { background-color: #dc2626; transform: scale(1.02); }
+        .input-dark { background-color: #0b0e16; border: 1px solid #25283b; }
+        .table-header { color: #666; font-size: 11px; font-weight: bold; border-bottom: 1px solid #25283b; }
+        .row { border-bottom: 1px solid #1f2233; transition: 0.2s; }
+        .row:hover { background-color: #1c1f2e; }
     </style>
 </head>
-<body class="p-4">
-    <div class="flex justify-between items-center mb-6 p-4 card">
-        <span class="text-yellow-400 text-xl">☰</span>
-        <h1 class="font-bold tracking-widest text-sm">AVIATOR TIPS</h1>
-        <div class="bg-gray-800 px-3 py-1 rounded-full text-xs font-bold">🪙 39,995</div>
+<body class="max-w-md mx-auto min-h-screen flex flex-col">
+
+    <div class="flex justify-between items-center p-5 bg-[#161926] sticky top-0 z-10 shadow-lg">
+        <span class="text-[#facc15] text-2xl cursor-pointer">☰</span>
+        <h1 class="font-bold tracking-tighter text-lg">BETTING TIPS</h1>
+        <div class="bg-[#25283b] px-3 py-1 rounded-full flex items-center gap-1">
+            <span class="text-xs">🪙 39,995</span>
+        </div>
     </div>
 
-    <div class="card p-5 mb-6">
-        <p class="text-gray-500 text-xs mb-3">Analyse en temps réel (Historique)</p>
-        <textarea id="historyInput" class="w-full h-24 bg-black border-none rounded-lg p-3 text-sm focus:outline-none" placeholder="1.52 11.51 46.88..."></textarea>
-        <button onclick="generate()" class="w-full btn-red mt-4 py-3 rounded-lg font-bold text-sm">GENERER LES PREDICTIONS</button>
-    </div>
-
-    <h2 class="text-sm font-bold mb-4">Prédictions Aviator</h2>
-    <div class="grid grid-cols-4 text-[10px] text-gray-600 font-bold mb-4 text-center">
-        <div>HEURE</div><div>COTE 1</div><div>COTE 2</div><div>RISQUE</div>
-    </div>
-    <div id="resultsList" class="space-y-4 mb-24">
+    <div class="p-4 flex-grow">
+        <div class="card p-5 mb-6 shadow-xl">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-red-500 text-lg">🚀</span>
+                <h2 class="text-sm font-semibold">Analyse Aviator (Bet261)</h2>
+            </div>
+            
+            <textarea id="historyInput" 
+                class="w-full h-28 input-dark rounded-lg p-3 text-sm text-blue-400 focus:outline-none focus:ring-1 focus:ring-red-500" 
+                placeholder="Adikao eto ny isa (ohatra: 1.52 11.51 46.88 5.20...)"></textarea>
+            
+            <button onclick="generatePredictions()" class="w-full btn-red mt-5 py-4 rounded-lg font-bold text-sm shadow-lg uppercase tracking-wider">
+                🔍 Generer les predictions (1 Token)
+            </button>
         </div>
 
-    <div class="fixed bottom-0 left-0 right-0 h-16 bg-[#12151d] border-t border-gray-800 flex justify-around items-center text-[10px] text-gray-500 font-bold">
-        <div class="text-center">Tips</div>
-        <div class="text-center text-yellow-400">Aviator</div>
-        <div class="text-center">VIP</div>
-        <div class="text-center">More</div>
+        <div class="mb-4 flex justify-between items-center">
+            <h3 class="text-sm font-bold">Prédictions Aviator</h3>
+            <span class="text-[10px] text-gray-500 uppercase">En direct</span>
+        </div>
+
+        <div class="grid grid-cols-4 table-header pb-3 text-center">
+            <div>HEURE</div>
+            <div>COTE 1</div>
+            <div>COTE 2</div>
+            <div>RISQUE</div>
+        </div>
+
+        <div id="resultsList" class="pb-24">
+            <div class="text-center py-10 text-gray-600 text-xs italic">
+                Ampidiro ny history vao manindry "Generer"
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 h-20 bg-[#161926] border-t border-[#25283b] flex justify-around items-center text-[10px] text-gray-500 font-bold max-w-md mx-auto">
+        <div class="flex flex-col items-center gap-1 cursor-pointer">
+            <span>🔥</span><span>Tips</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 cursor-pointer">
+            <span>📈</span><span>Virtual</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-[#facc15] cursor-pointer">
+            <span>🚀</span><span>Aviator</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 cursor-pointer">
+            <span>💎</span><span>VIP</span>
+        </div>
     </div>
 
     <script>
-        function generate() {
+        // Ny Loko araka ny Bet261
+        function getCoteColor(val) {
+            const v = parseFloat(val);
+            if (v < 2.00) return "#4da6ff";    // Blue (Manga)
+            if (v < 10.00) return "#9333ea";   // Violet (Volomparasy)
+            if (v <= 50.00) return "#ff45e0";  // Rose (Pink)
+            return "#10b981";                  // Vert (Maintso - Fara-tampony)
+        }
+
+        function generatePredictions() {
             const input = document.getElementById('historyInput').value;
             const list = document.getElementById('resultsList');
-            list.innerHTML = ""; // Reset
+            
+            // Raha tsy misy isa nampidirina
+            if (!input.trim()) {
+                alert("Azafady, ampidiro aloha ny isa nivoaka farany!");
+                return;
+            }
 
-            const now = new Date();
-            for (let i = 1; i <= 8; i++) {
-                now.setMinutes(now.getMinutes() + 2);
-                const timeStr = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+            list.innerHTML = ""; 
+            let now = new Date();
+
+            for (let i = 1; i <= 10; i++) {
+                // Kajy ny ora miaraka amin'ny segondra
+                let predictTime = new Date(now.getTime() + (i * 140000) + (Math.floor(Math.random() * 59) * 1000));
+                const h = predictTime.getHours().toString().padStart(2, '0');
+                const m = predictTime.getMinutes().toString().padStart(2, '0');
+                const s = predictTime.getSeconds().toString().padStart(2, '0');
+                const timeStr = `${h}:${m}:${s}`;
                 
-                const c1 = (1.1 + Math.random()).toFixed(2);
-                const c2 = (2.0 + Math.random() * 2).toFixed(2);
-                const risk = (c2 * 1.5).toFixed(2);
-                const color = risk > 5 ? "text-purple-500" : "text-blue-400";
+                // Simulation ny isa
+                const c1 = (1.1 + Math.random() * 3).toFixed(2);
+                const c2 = (2.0 + Math.random() * 12).toFixed(2);
+                const risk = (parseFloat(c2) * (1.5 + Math.random() * 40)).toFixed(2);
 
                 list.innerHTML += `
-                    <div class="flex justify-between items-center py-4 border-b border-gray-900 text-center text-xs">
-                        <div class="w-1/4 text-gray-400">${timeStr}:00</div>
-                        <div class="w-1/4 text-blue-400 font-medium">${c1}x</div>
-                        <div class="w-1/4 text-blue-400 font-medium">${c2}x</div>
-                        <div class="w-1/4 font-bold ${color}">${risk}x</div>
+                    <div class="grid grid-cols-4 py-5 row text-center items-center">
+                        <div class="text-gray-400 text-xs">${timeStr}</div>
+                        <div class="font-bold text-xs" style="color: ${getCoteColor(c1)}">${c1}x</div>
+                        <div class="font-bold text-xs" style="color: ${getCoteColor(c2)}">${c2}x</div>
+                        <div class="font-bold text-sm" style="color: ${getCoteColor(risk)}">${risk}x</div>
                     </div>
                 `;
             }
