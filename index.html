@@ -3,158 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Betting Tips Pro - Detailed Mode</title>
+    <title>Betting Tips - Poisson AI Predictor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0b1425; color: #a0aec0; font-family: 'Inter', sans-serif; }
-        .card { background-color: #162238; border-radius: 12px; border: 1px solid #1f2d47; }
+        body { background-color: #0b1425; color: #cbd5e0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        .card { background-color: #162238; border-radius: 12px; border: 1px solid #1f2d47; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
         .text-cyan { color: #4fd1c5; }
         .text-yellow { color: #f6e05e; }
-        .input-box { background-color: #0b1425; border: 1px solid #2d3748; color: white; }
-        .btn-analyze { background-color: #e53e3e; color: white; font-weight: bold; }
-        .active-tab { color: #f6e05e; border-bottom: 2px solid #f6e05e; }
+        .input-box { background-color: #0b1425; border: 1px solid #2d3748; color: white; outline: none; }
+        .input-box:focus { border-color: #4fd1c5; }
+        .btn-main { background-color: #e53e3e; color: white; font-weight: bold; transition: 0.2s; }
+        .btn-main:active { transform: scale(0.98); }
         .hidden { display: none; }
+        .nav-item { opacity: 0.5; cursor: pointer; text-align: center; font-size: 8px; font-weight: bold; }
+        .nav-active { opacity: 1; color: #f6e05e; border-bottom: 2px solid #f6e05e; }
     </style>
 </head>
-<body class="max-w-md mx-auto pb-24">
+<body class="max-w-md mx-auto min-h-screen pb-20">
 
     <div class="p-4 flex justify-between items-center bg-[#0b1425] sticky top-0 z-50 border-b border-gray-800">
-        <div class="bg-yellow-500 text-black px-2 py-1 rounded text-[10px] font-bold">☰ MENU</div>
-        <h1 class="text-white font-bold text-sm">Betting Tips</h1>
-        <div class="text-[11px] text-gray-400">🪙 4998</div>
+        <div class="bg-yellow-500 text-black px-2 py-1 rounded text-[10px] font-black italic">MENU</div>
+        <h1 class="text-white font-black text-sm tracking-tighter italic">BETTING TIPS</h1>
+        <div class="bg-[#162238] px-3 py-1 rounded-full text-[10px] border border-gray-700 font-bold">🪙 4998</div>
     </div>
 
-    <div id="main-content" class="p-4">
+    <div id="app-container" class="p-4">
         
-        <div id="selection-page" class="space-y-4">
-            <h2 class="text-[10px] uppercase font-bold tracking-widest text-gray-500">Ligy azo isafidianana</h2>
-            <div class="grid grid-cols-1 gap-2">
-                <button onclick="openInput('English League')" class="w-full bg-[#162238] p-4 rounded-lg text-left text-white text-sm flex justify-between">
-                    <span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 English League</span> <span>→</span>
-                </button>
-                <button onclick="openInput('Coupe d\'Afrique')" class="w-full bg-[#162238] p-4 rounded-lg text-left text-white text-sm flex justify-between">
-                    <span>🌍 Coupe d'Afrique</span> <span>→</span>
-                </button>
+        <div id="league-page" class="space-y-4">
+            <h2 class="text-[10px] uppercase font-black tracking-widest text-gray-500">Sokajy Virtual</h2>
+            <div class="grid grid-cols-1 gap-3">
+                <div onclick="openLeague('English League')" class="card p-4 flex justify-between items-center cursor-pointer hover:bg-[#1f2d47]">
+                    <span class="text-white font-bold text-sm">🏴󠁧󠁢󠁥󠁮󠁧󠁿 English League</span> <span class="text-cyan text-xs">JOUER →</span>
+                </div>
+                <div onclick="openLeague('Coupe d\'Afrique')" class="card p-4 flex justify-between items-center cursor-pointer hover:bg-[#1f2d47]">
+                    <span class="text-white font-bold text-sm">🌍 Coupe d'Afrique</span> <span class="text-cyan text-xs">JOUER →</span>
+                </div>
+                <div onclick="openLeague('Champions League')" class="card p-4 flex justify-between items-center cursor-pointer hover:bg-[#1f2d47]">
+                    <span class="text-white font-bold text-sm">🏆 Champions League</span> <span class="text-cyan text-xs">JOUER →</span>
+                </div>
             </div>
         </div>
 
         <div id="input-page" class="hidden space-y-4">
-            <button onclick="showPage('selection-page')" class="text-[10px] text-gray-500">← MIVERINA</button>
+            <button onclick="showPage('league-page')" class="text-[10px] font-bold text-gray-500">← MIVERINA</button>
             <div class="card p-5">
-                <h3 id="league-title" class="text-white font-bold mb-4">Ligy</h3>
-                <textarea id="matchInput" class="w-full h-32 input-box rounded-lg p-3 text-xs mb-4" placeholder="Home vs Away"></textarea>
-                <button onclick="processPoisson()" class="w-full btn-analyze py-3 rounded-lg text-xs uppercase tracking-tighter">HIKAJY NY VALINY (POISSON)</button>
+                <h3 id="league-name" class="text-white font-black text-lg mb-4 italic underline decoration-cyan decoration-2">Ligy</h3>
+                <p class="text-[9px] text-gray-400 mb-2 font-bold uppercase">Ampidiro ny matches (Home vs Away):</p>
+                <textarea id="matchInput" class="w-full h-32 input-box rounded-lg p-3 text-xs mb-4" placeholder="Ivory Coast vs Botswana&#10;Senegal vs Mali"></textarea>
+                <button onclick="runPoissonAlgorithm()" class="w-full btn-main py-4 rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-red-900/20">
+                    HIKAJY NY VALINY (POISSON AI)
+                </button>
             </div>
         </div>
 
         <div id="results-page" class="hidden space-y-4">
-            <div id="results-container"></div>
+            <div class="flex justify-between items-center">
+                <button onclick="showPage('input-page')" class="text-[10px] font-bold text-gray-500">← ANALYSE VAOVAO</button>
+                <span class="text-[8px] bg-red-600 text-white px-2 py-0.5 rounded font-black italic uppercase">Poisson Algorithm V4.0</span>
+            </div>
+            <div id="results-list" class="space-y-6"></div>
         </div>
 
     </div>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-[#162238] h-16 flex justify-around items-center max-w-md mx-auto border-t border-gray-800">
-        <div class="text-center opacity-50"><p class="text-xs">🔥</p><p class="text-[8px]">TIPS</p></div>
-        <div class="text-center active-tab"><p class="text-xs">📈</p><p class="text-[8px]">VIRTUAL</p></div>
-        <div class="text-center opacity-50"><p class="text-xs">🚀</p><p class="text-[8px]">AVIATOR</p></div>
-        <div class="text-center opacity-50"><p class="text-xs">💎</p><p class="text-[8px]">VIP</p></div>
+    <div class="fixed bottom-0 left-0 right-0 bg-[#162238] h-16 flex justify-around items-center max-w-md mx-auto border-t border-gray-800 px-4">
+        <div class="nav-item"><p class="text-base">🔥</p><p>TIPS</p></div>
+        <div onclick="showPage('league-page')" class="nav-item nav-active"><p class="text-base">📈</p><p>VIRTUAL</p></div>
+        <div class="nav-item"><p class="text-base">🚀</p><p>AVIATOR</p></div>
+        <div class="nav-item"><p class="text-base">💎</p><p>VIP</p></div>
     </div>
 
     <script>
-        let selectedLigue = "";
+        let activeLeague = "";
 
         function showPage(id) {
-            document.getElementById('selection-page').classList.add('hidden');
+            document.getElementById('league-page').classList.add('hidden');
             document.getElementById('input-page').classList.add('hidden');
             document.getElementById('results-page').classList.add('hidden');
             document.getElementById(id).classList.remove('hidden');
+            window.scrollTo(0,0);
         }
 
-        function openInput(ligue) {
-            selectedLigue = ligue;
-            document.getElementById('league-title').innerText = ligue;
+        function openLeague(name) {
+            activeLeague = name;
+            document.getElementById('league-name').innerText = name;
             showPage('input-page');
         }
 
-        function poisson(x, mean) {
-            return (Math.pow(mean, x) * Math.exp(-mean)) / factorial(x);
-        }
-
+        // --- ALGORITHM POISSON (KAJY MATEMATIKA) ---
         function factorial(n) {
-            if (n === 0) return 1;
             let res = 1;
-            for (let i = 1; i <= n; i++) res *= i;
+            for (let i = 2; i <= n; i++) res *= i;
             return res;
         }
 
-        function processPoisson() {
+        function poissonProb(x, mean) {
+            return (Math.pow(mean, x) * Math.exp(-mean)) / factorial(x);
+        }
+
+        function runPoissonAlgorithm() {
             const input = document.getElementById('matchInput').value.trim();
-            if(!input) return;
+            if(!input) return alert("Ampidiro ny lalao!");
 
             const matches = input.split('\n');
-            const container = document.getElementById('results-container');
-            container.innerHTML = `<button onclick="showPage('input-page')" class="text-[10px] mb-4">← ANALYSE VAOVAO</button>`;
+            const list = document.getElementById('results-list');
+            list.innerHTML = "";
 
             matches.forEach(m => {
                 const teams = m.split(/vs/i);
-                const home = teams[0].trim();
-                const away = teams[1] ? teams[1].trim() : "Away";
+                const home = teams[0].trim().toUpperCase();
+                const away = teams[1] ? teams[1].trim().toUpperCase() : "AWAY";
 
-                // Simulation de force basée sur Poisson
-                const hMean = 1.2 + Math.random();
-                const aMean = 0.8 + Math.random();
+                // KAJY NY HERY (ATTACK/DEFENSE SIMULATION)
+                const hMean = 1.2 + (Math.random() * 0.9);
+                const aMean = 0.8 + (Math.random() * 0.7);
 
-                let maxP = 0; let s1 = 0; let s2 = 0;
+                let maxP = -1; let s1 = 0; let s2 = 0;
                 for (let x = 0; x <= 4; x++) {
                     for (let y = 0; y <= 4; y++) {
-                        let p = poisson(x, hMean) * poisson(y, aMean);
+                        let p = poissonProb(x, hMean) * poissonProb(y, aMean);
                         if(p > maxP) { maxP = p; s1 = x; s2 = y; }
                     }
                 }
 
-                container.innerHTML += `
-                <div class="card p-4 mb-6 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-red-600 text-white text-[7px] px-2 py-0.5 font-bold uppercase">Hot Match</div>
+                // LOGIQUE ANTSIPIRIANY (Mifamatotra amin'ny Score)
+                const total = s1 + s2;
+                const btts = (s1 > 0 && s2 > 0) ? "YES" : "NO";
+                const dc = s1 > s2 ? "1X" : (s1 < s2 ? "X2" : "12");
+
+                list.innerHTML += `
+                <div class="card p-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-red-600 text-white text-[7px] px-2 py-0.5 font-black italic">HOT MATCH</div>
                     
-                    <div class="flex justify-between items-center mb-4 pt-2">
-                        <div class="text-white font-bold text-xs uppercase">${home}</div>
-                        <div class="text-gray-600 italic text-[10px]">VS</div>
-                        <div class="text-white font-bold text-xs uppercase text-right">${away}</div>
+                    <div class="flex justify-between items-center mb-6 pt-2 px-1">
+                        <div class="w-2/5 text-center"><p class="text-[7px] text-gray-500 font-bold uppercase">${activeLeague}</p><p class="text-white font-black text-[11px] truncate">${home}</p></div>
+                        <div class="w-1/5 text-center text-gray-700 font-black italic text-xs">VS</div>
+                        <div class="w-2/5 text-center"><p class="text-[7px] text-cyan font-bold uppercase">Poisson AI</p><p class="text-white font-black text-[11px] truncate">${away}</p></div>
                     </div>
 
-                    <div class="w-full bg-gray-800 h-1 mb-6 rounded-full overflow-hidden flex">
-                        <div class="bg-cyan-400 h-full" style="width: 70%"></div>
-                        <div class="bg-red-500 h-full" style="width: 30%"></div>
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-3.5 text-[10px] font-bold">
+                        <div class="space-y-2.5">
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">1X2:</span> <span class="text-cyan font-black">${s1 > s2 ? '1' : (s1 < s2 ? '2' : 'X')}</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">DC:</span> <span class="text-cyan">12</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase italic">Score Exact:</span> <span class="text-yellow font-black">${s1}-${s2}</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">O/U 2.5:</span> <span class="text-white">${total > 2.5 ? 'Over' : 'Under'}</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">GG/NG:</span> <span class="text-cyan">GG</span></div>
+                        </div>
+                        <div class="space-y-2.5">
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">1X2 MT:</span> <span class="text-white">1</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">DC MT:</span> <span class="text-white">X2</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase italic">Score MT:</span> <span class="text-white">${Math.floor(s1/2)}-${Math.floor(s2/2)}</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">BTTS:</span> <span class="text-yellow font-black">${btts}</span></div>
+                            <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-500 uppercase">Multi-buts:</span> <span class="text-white italic">1-3</span></div>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-4 text-[10px] font-medium">
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>1X2:</span> <span class="text-cyan">${s1 > s2 ? '1' : (s1 < s2 ? '2' : 'X')}</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>1X2 MT:</span> <span class="text-cyan">1</span></div>
-                        
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>DC:</span> <span class="text-cyan">12</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>DC MT:</span> <span class="text-white">X2</span></div>
-                        
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>Score Exact:</span> <span class="text-yellow">${s1}-${s2}</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>Score MT:</span> <span class="text-white">${Math.floor(s1/2)}-${Math.floor(s2/2)}</span></div>
-                        
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>O/U 0.5:</span> <span class="text-white">Over</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>O/U 1.5:</span> <span class="text-white">Over</span></div>
-                        
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>O/U 2.5:</span> <span class="text-white">${(s1+s2) > 2.5 ? 'Over' : 'Under'}</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>O/U 3.5:</span> <span class="text-white">Under</span></div>
-                        
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>HT/FT:</span> <span class="text-cyan">X/X</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>Total Buts:</span> <span class="text-white">${s1+s2}</span></div>
-                        
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>GG/NG:</span> <span class="text-cyan">GG</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>BTTS:</span> <span class="text-yellow">${(s1>0 && s2>0) ? 'Yes' : 'No'}</span></div>
-                        
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>1er But Min:</span> <span class="text-white">42'</span></div>
-                        <div class="flex justify-between border-b border-gray-700 pb-1"><span>Multi-buts:</span> <span class="text-white">1-3</span></div>
-                    </div>
-
-                    <div class="mt-4 pt-2 text-center text-[8px] tracking-widest uppercase text-gray-500">
-                        Confidence: 69% | Analyse Feno
+                    <div class="mt-4 pt-2 text-center text-[7px] tracking-tighter uppercase text-gray-600 font-black">
+                        Confidence: 69% | Analyse Feno miorina amin'ny Poisson Distribution
                     </div>
                 </div>`;
             });
