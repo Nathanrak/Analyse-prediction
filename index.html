@@ -7,135 +7,171 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #0b101b; color: white; font-family: sans-serif; }
-        .card { background-color: #1a2235; border-radius: 15px; border: 1px solid #2d3748; transition: 0.3s; }
+        .card { background-color: #1a2235; border-radius: 15px; border: 1px solid #2d3748; }
         .input-box { background-color: #0b101b; border: 1px solid #3d465a; color: #cbd5e0; }
+        .btn-yellow { background-color: #facc15; color: black; font-weight: bold; }
         .active-nav { color: #facc15; border-bottom: 2px solid #facc15; }
-        .league-card { padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; font-size: 12px; }
         .hidden { display: none; }
+        .league-card { padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; font-size: 11px; transition: 0.2s; }
+        .league-card:active { scale: 0.95; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out; }
     </style>
 </head>
 <body class="max-w-md mx-auto min-h-screen pb-24">
 
     <div class="p-5 flex justify-between items-center sticky top-0 bg-[#0b101b] z-50">
-        <div class="bg-[#facc15] p-2 rounded-lg text-black font-bold text-xs">☰ MENU</div>
-        <h1 class="text-md font-bold">Betting Tips</h1>
-        <div class="flex items-center gap-2 bg-[#1a2235] px-3 py-1 rounded-full">
-            <span class="text-yellow-500">🪙</span>
-            <span id="tokens" class="text-xs font-bold">4998</span>
+        <div class="bg-[#facc15] p-2 rounded-lg text-black font-bold text-[10px]">☰ MENU</div>
+        <h1 class="text-md font-bold italic text-white">Betting Tips</h1>
+        <div class="bg-[#1a2235] px-3 py-1 rounded-full border border-gray-700 text-[11px] flex items-center gap-1">
+            <span class="text-yellow-500">🪙</span> <span class="font-bold">4998</span>
         </div>
     </div>
 
-    <div id="app-container" class="px-4">
-
-        <div id="league-selection" class="space-y-4">
-            <h2 class="text-xs font-bold text-gray-500 uppercase">Sokajy misy (Ligy)</h2>
+    <div id="main-container" class="px-4">
+        
+        <div id="league-page" class="space-y-4">
+            <h2 class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Sokajy misy (Ligy)</h2>
             <div class="grid grid-cols-2 gap-3">
-                <div onclick="selectLeague('English League')" class="league-card bg-red-600">🇬🇧 English League</div>
-                <div onclick="selectLeague('Coupe d\'Afrique')" class="league-card bg-green-600">🌍 Coupe d'Afrique</div>
-                <div onclick="selectLeague('Champions League')" class="league-card bg-red-600">🏆 Champions League</div>
-                <div onclick="selectLeague('Italian League')" class="league-card bg-green-600">🇮🇹 Italian League</div>
+                <div onclick="openAnalyse('English League')" class="league-card bg-red-600">🇬🇧 English League</div>
+                <div onclick="openAnalyse('Coupe d\'Afrique')" class="league-card bg-green-600">🌍 Coupe d'Afrique</div>
+                <div onclick="openAnalyse('Champions League')" class="league-card bg-red-600">🏆 Champions League</div>
+                <div onclick="openAnalyse('Italian League')" class="league-card bg-green-600">🇮🇹 Italian League</div>
             </div>
             
-            <h2 class="text-xs font-bold text-gray-500 uppercase mt-6">Fast League (Matchs 2mn)</h2>
+            <h2 class="text-[10px] text-gray-500 font-bold uppercase mt-6 tracking-widest italic text-green-500">Fast League (2mn)</h2>
             <div class="space-y-2">
-                <div onclick="selectLeague('English Fast')" class="league-card bg-green-500 flex justify-between px-5">
+                <div onclick="openAnalyse('English Fast')" class="league-card bg-green-500 flex justify-between px-5">
                     <span>🇬🇧 English Fast League</span> <span>JOUER →</span>
                 </div>
-                <div onclick="selectLeague('Italian Fast')" class="league-card bg-green-500 flex justify-between px-5">
+                <div onclick="openAnalyse('Italian Fast')" class="league-card bg-green-500 flex justify-between px-5">
                     <span>🇮🇹 Italian Fast League</span> <span>JOUER →</span>
                 </div>
-                <div onclick="selectLeague('Spanish Fast')" class="league-card bg-green-500 flex justify-between px-5">
+                <div onclick="openAnalyse('Spanish Fast')" class="league-card bg-green-500 flex justify-between px-5">
                     <span>🇪🇸 Spanish Fast League</span> <span>JOUER →</span>
                 </div>
             </div>
         </div>
 
-        <div id="match-input-page" class="hidden space-y-4">
-            <button onclick="goBack()" class="text-[10px] text-gray-500">← MIVERINA AMIN'NY LIGY</button>
-            <div class="card p-5">
-                <h3 id="selected-league-name" class="text-yellow-500 font-bold mb-4">Ligy</h3>
-                <p class="text-[10px] text-gray-400 mb-2 uppercase font-bold text-[9px]">Analyse Matchs</p>
-                <textarea id="matchInput" class="w-full h-24 input-box rounded-xl p-3 text-xs focus:outline-none" 
-                    placeholder="Team A vs Team B | 1.50 | 3.20..."></textarea>
-                <button onclick="generateVirtuelResult()" class="w-full bg-yellow-500 text-black mt-4 py-4 rounded-xl font-bold text-xs shadow-lg uppercase">
-                    Analyse Match (1 Token)
+        <div id="input-page" class="hidden space-y-4">
+            <button onclick="showPage('league-page')" class="text-[10px] text-gray-500 uppercase font-bold">← MIVERINA AMIN'NY LIGY</button>
+            <div class="card p-5 border-t-2 border-yellow-500">
+                <h2 id="current-league-name" class="text-yellow-500 font-bold text-sm mb-4 italic underline decoration-gray-700">Ligy</h2>
+                
+                <div class="mb-5">
+                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-tighter">1️⃣ Historique (Optionnel)</p>
+                    <textarea class="w-full h-16 input-box rounded-xl p-3 text-[10px] focus:outline-none" placeholder="Collez l'historique ici (ex: Team A 2-1 Team B)..."></textarea>
+                </div>
+
+                <div class="mb-2">
+                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-tighter">2️⃣ Nouvelle Analyse (Multi-Match)</p>
+                    <textarea id="multiMatchInput" class="w-full h-32 input-box rounded-xl p-3 text-[11px] focus:outline-none" 
+                        placeholder="Liverpool vs C. Palace&#10;Morocco vs Angola&#10;Burnley vs A. Villa"></textarea>
+                </div>
+
+                <button onclick="runProAnalysis()" class="w-full btn-yellow mt-4 py-4 rounded-xl text-xs uppercase shadow-xl hover:bg-yellow-400 active:scale-95 transition">
+                    🔍 ANALYSER NY MATCHES REHETRA
                 </button>
             </div>
         </div>
 
-        <div id="result-page" class="hidden animate-fade-in">
-            <div id="result-content"></div>
+        <div id="result-page" class="hidden space-y-4 pb-10">
+            <button onclick="showPage('input-page')" class="text-[10px] text-gray-500 font-bold uppercase mb-2">← ANALYSE VAOVAO</button>
+            <div id="multi-result-container"></div>
         </div>
 
     </div>
 
     <div class="fixed bottom-0 left-0 right-0 bg-[#1a2235] h-20 border-t border-gray-800 flex justify-around items-center max-w-md mx-auto z-50">
-        <div class="flex flex-col items-center gap-1 opacity-50"><span class="text-xl">🔥</span><span class="text-[9px] font-bold">TIPS</span></div>
-        <div onclick="tabSwitch('virtuel')" class="flex flex-col items-center gap-1 active-nav"><span class="text-xl">📈</span><span class="text-[9px] font-bold">VIRTUEL</span></div>
-        <div onclick="tabSwitch('aviator')" class="flex flex-col items-center gap-1 opacity-50"><span class="text-xl">🚀</span><span class="text-[9px] font-bold">AVIATOR</span></div>
-        <div class="flex flex-col items-center gap-1 opacity-50"><span class="text-xl">💎</span><span class="text-[9px] font-bold">VIP</span></div>
+        <div class="flex flex-col items-center gap-1 opacity-40"><span class="text-xl">🔥</span><span class="text-[9px] font-bold">TIPS</span></div>
+        <div onclick="showPage('league-page')" class="flex flex-col items-center gap-1 active-nav cursor-pointer"><span class="text-xl">📈</span><span class="text-[9px] font-bold uppercase">VIRTUAL</span></div>
+        <div class="flex flex-col items-center gap-1 opacity-40"><span class="text-xl">🚀</span><span class="text-[9px] font-bold">AVIATOR</span></div>
+        <div class="flex flex-col items-center gap-1 opacity-40"><span class="text-xl">💎</span><span class="text-[9px] font-bold">VIP</span></div>
     </div>
 
     <script>
-        let currentLeague = "";
+        let selectedLeague = "";
 
-        function selectLeague(league) {
-            currentLeague = league;
-            document.getElementById('league-selection').classList.add('hidden');
-            document.getElementById('match-input-page').classList.remove('hidden');
-            document.getElementById('selected-league-name').innerText = "📍 " + league;
-        }
-
-        function goBack() {
-            document.getElementById('match-input-page').classList.add('hidden');
-            document.getElementById('league-selection').classList.remove('hidden');
-        }
-
-        function generateVirtuelResult() {
-            const matchTxt = document.getElementById('matchInput').value;
-            if(!matchTxt) return alert("Ampidiro ny match!");
-
-            const teams = matchTxt.split('vs');
-            const team1 = teams[0] ? teams[0].trim() : "Home";
-            const team2 = teams[1] ? teams[1].trim() : "Away";
-
-            document.getElementById('match-input-page').classList.add('hidden');
-            document.getElementById('result-page').classList.remove('hidden');
-
-            const score1 = Math.floor(Math.random() * 3);
-            const score2 = Math.floor(Math.random() * 2);
-
-            document.getElementById('result-content').innerHTML = `
-                <button onclick="goBackToInput()" class="text-[10px] text-gray-500 mb-4">← MIVERINA</button>
-                <div class="card p-5 relative overflow-hidden border-t-4 border-yellow-500">
-                    <div class="absolute top-0 right-0 p-2"><span class="bg-red-600 text-[8px] px-2 py-1 rounded font-bold">HOT MATCH</span></div>
-                    <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
-                        <div class="w-2/5 text-center"><p class="text-[8px] text-gray-500 uppercase">${currentLeague}</p><p class="font-bold text-xs truncate">${team1}</p></div>
-                        <div class="w-1/5 text-center font-bold text-gray-600">VS</div>
-                        <div class="w-2/5 text-center"><p class="text-[8px] text-gray-500 uppercase">Analysis</p><p class="font-bold text-xs truncate">${team2}</p></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 text-[11px]">
-                        <div class="space-y-3">
-                            <div class="flex justify-between border-b border-gray-800 pb-1"><span>1X2:</span> <span class="text-cyan-400 font-bold">1</span></div>
-                            <div class="flex justify-between border-b border-gray-800 pb-1"><span>DC:</span> <span class="text-white">12</span></div>
-                            <div class="flex justify-between border-b border-gray-800 pb-1"><span>Score Exact:</span> <span class="text-yellow-500 font-bold">${score1}-${score2}</span></div>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="flex justify-between border-b border-gray-800 pb-1"><span>O/U 2.5:</span> <span class="text-white">Under</span></div>
-                            <div class="flex justify-between border-b border-gray-800 pb-1"><span>BTTS:</span> <span class="text-yellow-500">No</span></div>
-                            <div class="flex justify-between border-b border-gray-800 pb-1"><span>Score MT:</span> <span class="text-white">1-0</span></div>
-                        </div>
-                    </div>
-                    <div class="mt-5 pt-3 border-t border-gray-800 flex justify-between text-[9px] text-gray-500 uppercase">
-                        <span>Confidence: 69%</span> <span class="text-green-500 font-bold">Analyse feno</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        function goBackToInput() {
+        function showPage(pageId) {
+            document.getElementById('league-page').classList.add('hidden');
+            document.getElementById('input-page').classList.add('hidden');
             document.getElementById('result-page').classList.add('hidden');
-            document.getElementById('match-input-page').classList.remove('hidden');
+            document.getElementById(pageId).classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function openAnalyse(ligue) {
+            selectedLeague = ligue;
+            document.getElementById('current-league-name').innerText = "📍 " + ligue;
+            showPage('input-page');
+        }
+
+        function runProAnalysis() {
+            const inputTxt = document.getElementById('multiMatchInput').value.trim();
+            if (!inputTxt) return alert("Ampidiro ny matches andalana isanisany!");
+
+            const matches = inputTxt.split('\n');
+            const container = document.getElementById('multi-result-container');
+            container.innerHTML = ""; 
+
+            matches.forEach((m, index) => {
+                if (m.trim() !== "") {
+                    const teams = m.toLowerCase().includes('vs') ? m.split(/vs/i) : [m, "Opposition"];
+                    const home = teams[0].trim().toUpperCase();
+                    const away = teams[1].trim().toUpperCase();
+
+                    // Lojika ho an'ny valiny feno (Simulation)
+                    const s1 = Math.floor(Math.random() * 3);
+                    const s2 = Math.floor(Math.random() * 2);
+                    const mt1 = Math.min(s1, Math.floor(Math.random() * 2));
+                    const mt2 = Math.min(s2, Math.floor(Math.random() * 2));
+
+                    container.innerHTML += `
+                        <div class="card p-5 mb-6 border-t-4 border-red-500 relative shadow-2xl animate-fade-in" style="animation-delay: ${index * 0.1}s">
+                            <div class="absolute top-0 right-0 p-2"><span class="bg-red-600 text-[7px] px-2 py-1 rounded font-bold italic text-white shadow-md">🔥 HOT MATCH</span></div>
+                            
+                            <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4 pt-2">
+                                <div class="w-2/5 text-center">
+                                    <p class="text-[7px] text-gray-500 uppercase tracking-tighter mb-1">${selectedLeague}</p>
+                                    <p class="font-bold text-[11px] text-white truncate">${home}</p>
+                                </div>
+                                <div class="w-1/5 text-center text-gray-600 font-black italic text-xs underline decoration-cyan-500">VS</div>
+                                <div class="w-2/5 text-center">
+                                    <p class="text-[7px] text-gray-500 uppercase tracking-tighter mb-1 italic text-cyan-500">69% Conf.</p>
+                                    <p class="font-bold text-[11px] text-white truncate">${away}</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-x-10 gap-y-3.5 text-[10px]">
+                                <div class="space-y-2.5">
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">1X2:</span> <span class="text-cyan-400 font-black">${s1 >= s2 ? (s1 == s2 ? 'X' : '1') : '2'}</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">DC:</span> <span class="text-white">12</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">Score Exact:</span> <span class="text-yellow-500 font-bold italic">${s1}-${s2}</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">O/U 2.5:</span> <span class="text-white">${s1+s2 > 2.5 ? 'Over' : 'Under'}</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">HT/FT:</span> <span class="text-cyan-400 font-bold">X/X</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">GG/NG:</span> <span class="text-white">GG</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">1er But Min:</span> <span class="text-white">42'</span></div>
+                                </div>
+                                <div class="space-y-2.5">
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">1X2 MT:</span> <span class="text-white">1</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">DC MT:</span> <span class="text-white">X2</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">Score MT:</span> <span class="text-white">${mt1}-${mt2}</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">O/U 3.5:</span> <span class="text-white">Under</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">Total Buts:</span> <span class="text-white">${s1+s2}</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">BTTS:</span> <span class="text-yellow-500 font-bold">${s1>0 && s2>0 ? 'Yes' : 'No'}</span></div>
+                                    <div class="flex justify-between border-b border-gray-800 pb-1"><span class="text-gray-400 font-bold uppercase">Multi-buts:</span> <span class="text-white italic">1-3</span></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-5 pt-3 border-t border-gray-800 flex justify-between items-center">
+                                <span class="text-[8px] text-gray-500 uppercase font-bold tracking-widest">Confidence Score</span>
+                                <span class="text-green-500 font-bold text-[9px] uppercase italic">Analyse Feno ✓</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            showPage('result-page');
         }
     </script>
 </body>
